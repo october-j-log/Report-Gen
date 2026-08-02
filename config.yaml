@@ -1,0 +1,17 @@
+# 整流器验证报告 - 配置文件
+thresholds:
+  efficiency_min: 90.0          # 效率最低要求 (%)
+  temperature_max: 50.0         # 温度最高要求 (°C)
+
+input:
+  folder: "input"              # 输入文件夹
+  supported_formats:           # 支持的文件格式
+    - .csv
+    - .xlsx
+    - .xls
+
+output:
+  graphs_folder: "graphs"
+  reports_folder: "reports"
+  data_folder: "csv file"
+  report_filename: "rectifier_report.docx"

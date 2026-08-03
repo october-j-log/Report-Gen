@@ -1,24 +1,25 @@
-# Rectifier Validation Report Generator
+# Auto Validation Report Generator
 
-> 整流器验证报告自动生成工具 — 让测试数据到专业报告的全流程自动化
+> 通用测试验证报告自动生成工具 — 让数据到报告的全流程自动化
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-lightgrey)]()
 
 ---
 
 ## 📖 项目简介
 
-在电力电子产品的验证测试中，工程师通常需要手动处理大量测试数据——从 CSV/Excel 中复制数据、计算指标、绘制图表、撰写 Word 报告。这一过程重复、耗时且容易出错。
+在各类产品研发与验证测试中，工程师通常需要手动处理大量测试数据——从 CSV/Excel 中复制数据、计算指标、绘制图表、撰写测试报告。这一过程重复、耗时且容易出错。
 
-**Rectifier Validation Report Generator** 是一个基于 Python 的自动化工具，能够：
+**Auto Validation Report Generator** 是一个基于 Python 的**通用自动化报告生成工具**，能够：
 
 - 自动读取多种格式的测试数据（CSV / Excel / 文本日志）
-- 计算关键性能指标（效率、功率、温度等）
+- 计算自定义关键性能指标
 - 执行阈值异常检测与统计
 - 生成带异常标记的专业图表
 - 一键输出完整的 Word 验证报告
+
+> 💡 本工具最初为通信产品测试数据处理（如 Power、ACLR、EVM 等）设计，现已拓展为通用测试验证平台，可轻松适配电源、射频、电池、电机、环境监测等多种测试场景。
 
 ---
 
@@ -27,14 +28,13 @@
 | 特性 | 说明 |
 | :--- | :--- |
 | 📂 **多格式输入** | 支持 `.csv`、`.xlsx`、`.xls`、`.log`、`.txt` 格式 |
-| 🔍 **智能日志解析** | 基于正则表达式自动提取电压、电流、温度等参数 |
-| 📊 **自动计算** | 输出功率、效率等关键指标自动计算 |
+| 🔍 **智能日志解析** | 基于正则表达式自动提取关键参数 |
+| 📊 **自定义指标计算** | 支持灵活的公式配置（如效率、功率、EVM、ACLR 等） |
 | 🔴 **异常检测** | 可配置阈值的异常识别 + 超标样本统计与定位 |
-| 📈 **专业图表** | Matplotlib 生成 4 张曲线图（效率/电压/温度/功率），异常点高亮标记 |
+| 📈 **专业图表** | Matplotlib 生成曲线图，异常点高亮标记 |
 | 📄 **Word 报告** | 自动生成完整验证报告，含摘要、评估、图表、结论 |
 | ⚙️ **配置化管理** | 阈值、输入/输出路径等参数通过 `config.yaml` 集中管理 |
 | 📦 **数据追溯** | 保存处理后的完整数据（含计算列），便于二次分析 |
-
 ---
 
 ## 🏗️ 技术架构
@@ -90,8 +90,11 @@ pip install -r requirements.txt
 
 ```yaml
 thresholds:
+  # 自定义阈值 — 根据测试标准修改
   efficiency_min: 90.0    # 效率低于此值 → 标记为异常
   temperature_max: 50.0   # 温度高于此值 → 标记为异常
+  evm_max: 5.0            # EVM 高于此值 → 标记为异常
+  aclr_max: -30.0         # ACLR 高于此值 → 标记为异常
 
 input:
   folder: "input"        # 输入文件夹名称
@@ -106,9 +109,9 @@ output:
   graphs_folder: "graphs"       # 图表输出文件夹
   reports_folder: "reports"     # 报告输出文件夹
   data_folder: "csv file"       # 处理后数据文件夹
-  report_filename: "rectifier_report.docx"  # Word 报告文件名
+  report_filename: "validation_report.docx"  # Word 报告文件名
   ```
-注意：修改 config.yaml 后无需修改代码，直接重新运行即可生效。
+> 注意：修改 config.yaml 后无需修改代码，直接重新运行即可生效。
 
 ## 📊 输出说明
 
@@ -174,6 +177,24 @@ V=680.2 I=35.4 T=36.5
 ```
 ---
 
+## 🎯 应用场景拓展
+
+本工具不仅限于通信产品测试，还可适配以下场景：
+
+| 领域 | 数据示例 | 检测指标 |
+| :--- | :--- | :--- |
+| **通信产品测试** | 功率、ACLR、EVM、频率误差 | 功率精度、ACLR、EVM、频率偏差 |
+| **电源测试** | 输入/输出电压、电流、功率 | 转换效率、纹波、稳压精度 |
+| **电池测试** | 电压、电流、温度、容量 | 充放电效率、温升、容量保持率 |
+| **电机测试** | 转速、转矩、功率、温度 | 效率、温升、振动 |
+| **环境监测** | 温度、湿度、PM2.5、CO₂ | 超标率、均值、峰值 |
+| **生产线质检** | 尺寸、重量、压力、硬度 | 合格率、CPK、不良品定位 |
+| **医疗设备** | 心率、血压、血氧、体温 | 异常波动、均值偏离 |
+
+> 💡 **只需修改 `config.yaml` 中的阈值和 `test.py` 中的计算公式，即可快速适配新场景。**
+
+---
+
 ## 📋 依赖清单
 
 | 包名 | 版本 | 用途 |
@@ -209,12 +230,6 @@ pip install pandas matplotlib python-docx pyyaml openpyxl
 
 ---
 
-## 📄 License
-
-本项目采用 [MIT License](LICENSE) 开源协议。
-
----
-
 ## 📞 联系方式
 
 - 项目地址: [https://github.com/October-j-log/Report-Gen](https://github.com/October-j-log/Report-Gen)
@@ -234,13 +249,6 @@ openpyxl>=3.0.0
 
 ---
 
-## ⭐ 支持项目
+## ⭐ 如果这个项目对你有帮助，欢迎 Star！
 
-如果您觉得这个项目对您有帮助，欢迎：
-
-- 点个 **Star** ⭐ 支持一下
-- **Fork** 🍴 到您的仓库
-- 提交 **Issue** 💬 反馈问题或建议
-- 分享给更多有需要的朋友 📢
-
-您的支持是我持续改进的动力！
+---

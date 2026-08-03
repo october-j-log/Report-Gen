@@ -237,18 +237,6 @@ pip install pandas matplotlib python-docx pyyaml openpyxl
 
 ---
 
-## 📌 附录：requirements.txt
-
-```txt
-pandas>=1.5.0
-matplotlib>=3.5.0
-python-docx>=0.8.11
-PyYAML>=6.0
-openpyxl>=3.0.0
-```
-
----
-
 ## ⭐ 如果这个项目对你有帮助，欢迎 Star！
 
 ---

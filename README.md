@@ -212,31 +212,6 @@ pip install pandas matplotlib python-docx pyyaml openpyxl
 
 ---
 
-## 🤝 贡献指南
-
-欢迎贡献代码、提出问题或建议！
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/your-feature`)
-3. 提交更改 (`git commit -m 'Add some feature'`)
-4. 推送分支 (`git push origin feature/your-feature`)
-5. 提交 Pull Request
-
-### 开发规范
-
-- 代码遵循 [PEP 8](https://peps.python.org/pep-0008/) 风格
-- 新增功能请添加必要的注释
-- 修改阈值逻辑时，确保 `config.yaml` 同步更新
-
----
-
-## 📞 联系方式
-
-- 项目地址: [https://github.com/October-j-log/Report-Gen](https://github.com/October-j-log/Report-Gen)
-- 如有问题，请提交 [Issue](https://github.com/October-j-log/Report-Gen/issues)
-
----
-
 ## ⭐ 如果这个项目对你有帮助，欢迎 Star！
 
 ---
